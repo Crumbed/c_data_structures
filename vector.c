@@ -65,7 +65,7 @@ int* ivec_getp(ivec* v, int i) {
 void ivec_cpy(ivec* v, int* arr) {
     for (int i = 0; i < v->len; i++) {
         int x = v->array[i];
-        v->array[i] = x;
+        arr[i] = x;
     }
 }
 
