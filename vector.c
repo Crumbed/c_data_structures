@@ -30,16 +30,15 @@ void ivec_push(ivec* v, int element) {
         v->cap = new_cap; // update capacity
     }
 
-    int* i = v->array + v->len; // get pointer after the last element
-    *i = element; // set pointer value to the pushed element
+    v->array[v->len] = element; // set data after last element
     v->len += 1;
 }
 
 int ivec_remove(ivec* v, int i) {
     int removed = ivec_get(v, i);
     for (; i + 1 < v->len; i++) { // shift everything after i back by 1
-        int next = *(v->array + (i + 1)); // get the next element
-        int* set = v->array + i; // get the pointer to the current element
+        int next = v->array[i + 1]; // get the next element
+        int* set = &v->array[i]; // get the pointer to the current element
         *set = next; // set the current element to the next element
     }
     
@@ -54,24 +53,26 @@ void ivec_set(ivec* v, int i, int element) {
 
 int ivec_get(ivec* v, int i) {
     CHECK_BOUNDS(v->len, i);
-    return *(v->array + i);
+    //return *(v->array + i);
+    return v->array[i];
 }
 int* ivec_getp(ivec* v, int i) {
     CHECK_BOUNDS(v->len, i);
-    return v->array + i;
+    //return v->array + i;
+    return &v->array[i];
 }
 
 void ivec_cpy(ivec* v, int* arr) {
     for (int i = 0; i < v->len; i++) {
-        int x = *(v->array + i);
-        *(arr + i) = x;
+        int x = v->array[i];
+        v->array[i] = x;
     }
 }
 
 void ivec_print(ivec* v) {
     printf("{ ");
     for (int i = 0; i < v->len; i++) {
-        int x = *(v->array + i);
+        int x = v->array[i];
         if (i > 0) printf(", ");
         printf("%d", x);
     }
