@@ -13,9 +13,13 @@ void test_vec() {
     ivec_push(list, 7);
     ivec_push(list, 8);
     ivec_push(list, 9);
-    ivec_push(list, 10);
     ivec_push(list, 11);
 
+    ivec_print(list);
+    printf("size: %d, cap: %d\n", list->len, list->cap);
+    
+    printf("inserting 10 at index 9...\n");
+    ivec_insert(list, 9, 10);
     ivec_print(list);
     printf("size: %d, cap: %d\n", list->len, list->cap);
 

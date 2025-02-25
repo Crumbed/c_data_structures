@@ -36,13 +36,28 @@ void ivec_push(ivec* v, int element) {
 int ivec_remove(ivec* v, int i) {
     int removed = ivec_get(v, i);
     for (; i + 1 < v->len; i++) { // shift everything after i back by 1
-        int next = v->array[i + 1]; // get the next element
-        int* set = &v->array[i]; // get the pointer to the current element
-        *set = next; // set the current element to the next element
+        v->array[i] = v->array[i + 1]; // set the current element to the next element
     }
     
     v->len -= 1;
     return removed;
+}
+
+void ivec_insert(ivec* v, int i, int element) {
+    if (v->len == v->cap) { // if the underlying array is out of space
+        const int new_cap = v->cap * 1.5; // new capacity
+        int* new_array = realloc(v->array, sizeof(int) * new_cap); // reallocate the array with a new capacity
+        v->array = new_array; // update array pointer to the reallocated pointer
+        v->cap = new_cap; // update capacity
+    }
+
+    for (int idx = v->len+1; idx > i; idx--) { // shift every element from i onward forward by 1
+        // set previous element to the element at idx
+        v->array[idx] = v->array[idx - 1];
+    }
+
+    v->array[i] = element;
+    v->len += 1;
 }
 
 void ivec_set(ivec* v, int i, int element) {
